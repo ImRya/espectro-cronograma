@@ -387,12 +387,12 @@ function showTab(n){
   document.getElementById('tb2').classList.toggle('on',n===2);
 }
 
-const SD_KEY='espectro-start';
+const SD_KEY='espectro-start-v2';
 const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DIA=['dom','lun','mar','mié','jue','vie','sáb'];
 function getStart(){
   let v=localStorage.getItem(SD_KEY);
-  if(!v){const t=new Date(); const day=t.getDay(); const add=((8-day)%7)||7; const m=new Date(t); m.setDate(t.getDate()+add); v=m.toISOString().slice(0,10);}
+  if(!v){const t=new Date(); const day=t.getDay(); const diff=(day===0?-6:1-day); const m=new Date(t); m.setDate(t.getDate()+diff); v=m.toISOString().slice(0,10);}
   return v;
 }
 function renderCal(){

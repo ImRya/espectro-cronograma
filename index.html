@@ -321,7 +321,7 @@ const DATA=[
  {n:8,title:'Historia y culturas',tier:1,shorts:[
    {t:'Cómo otras culturas vieron el género',prod:false},{t:'Las personas de dos espíritus',prod:false},{t:'Historia LGBT+ en breve',prod:false},{t:'Lo que la historia nos enseña',prod:false}]},
  {n:9,title:'Mitos desmontados',tier:1,shorts:[
-   {t:'Mito #1',prod:false},{t:'Mito #2',prod:false},{t:'Mito #3',prod:false},{t:'Mito #4',prod:false},{t:'Mito #5',prod:false}]},
+   {t:'Mito #1: es solo una fase',prod:true},{t:'Mito #2',prod:false},{t:'Mito #3',prod:false},{t:'Mito #4',prod:false},{t:'Mito #5',prod:false}]},
  {n:10,title:'Cómo apoyar a alguien',tier:1,shorts:[
    {t:'Cuando alguien sale del clóset',prod:false},{t:'Qué NO decir',prod:false},{t:'El poder de escuchar',prod:false}]},
 ];
@@ -348,7 +348,6 @@ function render(){
       PLAT.forEach(p=>{
         const w=document.createElement('label'); w.className='chk'+(allPub?' full':'');
         const c=document.createElement('input'); c.type='checkbox'; c.checked=!!u[p[0]];
-        c.disabled=!sh.prod;
         c.onchange=()=>{u[p[0]]=c.checked; save(); render();};
         w.appendChild(c); w.appendChild(document.createTextNode(p[1])); pl.appendChild(w);
       });
@@ -436,7 +435,7 @@ render();
     clearTimeout(deb);
     deb=setTimeout(async()=>{
       try{ await sb.from('tracker').upsert({id:ROW,data:window.getLocalState(),updated_at:new Date().toISOString()}); }catch(e){console.warn(e);}
-    },600);
+    },250);
   };
   async function pull(){
     try{

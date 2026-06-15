@@ -80,6 +80,34 @@
   .cal-bd{font-size:11px; padding:3px 9px; border-radius:20px; font-weight:600;}
   .cal-h{font-size:12px; color:var(--mut); white-space:nowrap;}
   .cal-ck{font-size:12px; font-weight:600; min-width:84px; text-align:right;}
+  .tabs{display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap;}
+  .tab{background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--mut); padding:10px 18px; border-radius:12px; cursor:pointer; font-size:14px; font-family:inherit; font-weight:600;}
+  .tab.on{background:rgba(139,92,246,.22); color:#fff; border-color:var(--violet);}
+  .g-card{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:18px 20px; margin-bottom:16px;}
+  .g-h{font-size:17px; font-weight:600; margin-bottom:8px;}
+  .g-p{font-size:14px; color:var(--mut); line-height:1.7; margin-bottom:14px;}
+  .g-p b{color:var(--txt);}
+  .g-tip{font-size:12px; color:var(--violet2); background:rgba(139,92,246,.1); border-left:3px solid var(--violet); border-radius:0 8px 8px 0; padding:9px 12px; margin-top:10px; line-height:1.6;}
+  .profiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
+  .pf{background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:14px; padding:12px;}
+  .pf-top{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .pf-eye{width:38px; height:38px; border-radius:50%; flex:0 0 auto; position:relative; background:conic-gradient(from 0deg,#8B5CF6,#38E0D0,#34d399,#E8A53D,#E0218A,#8B5CF6);}
+  .pf-eye::after{content:""; position:absolute; inset:36%; border-radius:50%; background:#08030f;}
+  .pf-n{font-size:13px; font-weight:700; color:#fff;}
+  .pf-u{font-size:11px; color:var(--mut);}
+  .pf-pill{font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; display:inline-block;}
+  .pf-yt{background:rgba(226,75,75,.18); color:#F09595;}
+  .pf-tt{background:rgba(56,224,208,.16); color:#5DCAA5;}
+  .pf-ig{background:rgba(224,33,138,.18); color:#ED93B1;}
+  .pf-fb{background:rgba(55,138,221,.18); color:#85B7EB;}
+  .g-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(245px,1fr)); gap:12px;}
+  .g-mini{background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:14px; padding:14px 16px;}
+  .g-mini h4{font-size:14px; margin-bottom:8px; display:flex; align-items:center; gap:8px;}
+  .g-mini ul{list-style:none; font-size:12.5px; color:var(--mut); line-height:1.75;}
+  .g-mini li{padding-left:14px; position:relative;}
+  .g-mini li::before{content:"·"; position:absolute; left:2px; color:var(--violet2); font-weight:800;}
+  .bio-mock{background:#0d0820; border:1px dashed var(--line); border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.7; color:var(--txt); margin-top:6px;}
+  .bio-mock .muted{color:var(--mut);}
 </style>
 </head>
 <body>
@@ -93,6 +121,12 @@
     </div>
   </header>
 
+  <div class="tabs">
+    <button id="tb1" class="tab on" onclick="showTab(1)">Cronograma</button>
+    <button id="tb2" class="tab" onclick="showTab(2)">Guía de canales</button>
+  </div>
+
+  <div id="tab-crono">
   <div class="legend">
     <span><span class="dot" style="background:var(--green)"></span>Producido (lo actualiza Claude)</span>
     <span><span class="dot" style="background:var(--violet)"></span>Subido a una red (lo marcas tú)</span>
@@ -148,7 +182,122 @@
     Tu marcado de redes se guarda en este navegador. Mantén el archivo en su carpeta y usa siempre el mismo navegador.<br><br>
     <button class="reset" onclick="if(confirm('¿Borrar tus marcas de subida?')){localStorage.removeItem(KEY);location.reload();}">Reiniciar mis marcas</button>
   </footer>
-</div>
+  </div>
+
+  <div id="tab-guia" style="display:none">
+    <p style="color:var(--mut); font-size:14px; margin-bottom:20px; line-height:1.7;">Como director de marca: lo que hace crecer un canal nuevo en 2026 es <b style="color:var(--txt)">identidad consistente + hook en los primeros 2 segundos + subtítulos siempre</b>. Aquí va tu manual.</p>
+
+    <div class="g-card">
+      <div class="g-h">1 · Marca unificada en las 4 redes</div>
+      <p class="g-p">Mismo <b>@usuario</b>, misma <b>foto</b> (tu Ojo Espectral) y mismo <b>nombre</b> en todas. Reconocimiento instantáneo y te encuentran igual en cualquier lado.</p>
+      <div class="profiles">
+        <div class="pf"><div class="pf-top"><div class="pf-eye"></div><div><div class="pf-n">ESPECTRO</div><div class="pf-u">@espectro.educativo</div></div></div><span class="pf-pill pf-yt">YouTube</span></div>
+        <div class="pf"><div class="pf-top"><div class="pf-eye"></div><div><div class="pf-n">ESPECTRO</div><div class="pf-u">@espectro.educativo</div></div></div><span class="pf-pill pf-tt">TikTok</span></div>
+        <div class="pf"><div class="pf-top"><div class="pf-eye"></div><div><div class="pf-n">ESPECTRO</div><div class="pf-u">@espectro.educativo</div></div></div><span class="pf-pill pf-ig">Instagram</span></div>
+        <div class="pf"><div class="pf-top"><div class="pf-eye"></div><div><div class="pf-n">ESPECTRO</div><div class="pf-u">@espectro.educativo</div></div></div><span class="pf-pill pf-fb">Facebook</span></div>
+      </div>
+      <div class="g-tip">Por qué: un handle único multiplica el recuerdo de marca y deja que tu público salte de una red a otra sin equivocarse. Revisa que el @ esté libre en las 4 antes de fijarlo.</div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">2 · Tu bio (fórmula que convierte)</div>
+      <p class="g-p">3 líneas: qué eres + por qué seguirte + cuándo publicas.</p>
+      <div class="bio-mock">
+        🔭 La ciencia que nadie te explicó sobre identidad y sexualidad.<br>
+        <span class="muted">Evidencia · sin tabúes · sin juicios.</span><br>
+        <span class="muted">🗓️ Nuevos shorts Lun · Mié · Vie</span>
+      </div>
+      <div class="g-tip">Por qué: en 2 segundos el visitante decide si te sigue. La bio dice qué gana y con qué frecuencia — sin misterio.</div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">3 · Foto y portada</div>
+      <p class="g-p"><b>Foto de perfil:</b> tu Ojo Espectral (medallón), idéntico en las 4. <b>Banner/portada</b> (YouTube): el logo + "SEXUALIDAD · CIENCIA · CULTURA" + tu horario.</p>
+      <div class="g-tip">Por qué: el ojo es tu sello; repetirlo crea memoria visual. Nunca lo deformes ni cambies de color.</div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">4 · Cómo subir y personalizar — por plataforma</div>
+      <div class="g-grid">
+        <div class="g-mini">
+          <h4><span class="pf-pill pf-yt">YouTube Shorts</span></h4>
+          <ul>
+            <li>Vertical 9:16, 45–60s</li>
+            <li>Título = pregunta/promesa con palabra clave (≤80 car.)</li>
+            <li>1ª línea de descripción educativa + fuente + #Shorts</li>
+            <li>Marca "no es para niños" SIN 18+</li>
+            <li>Activa etiqueta de IA si la pide</li>
+            <li><b>Canal:</b> banner con logo, Shorts en playlists por tema, enlaces a TikTok/IG en "Acerca de"</li>
+          </ul>
+          <div class="g-tip">YouTube es buscador: los títulos con palabras clave te dan vistas por meses.</div>
+        </div>
+        <div class="g-mini">
+          <h4><span class="pf-pill pf-tt">TikTok</span></h4>
+          <ul>
+            <li>Vertical 9:16, 21–60s</li>
+            <li>Caption corto con gancho + 3–5 hashtags (nicho + amplio)</li>
+            <li>Portada con 3–4 palabras de texto</li>
+            <li>Etiqueta de contenido IA · NO marques 18+</li>
+            <li>Cuenta <b>Business/Creator</b></li>
+            <li><b>Perfil:</b> fija tus 3 mejores videos arriba, link a IG/YT</li>
+          </ul>
+          <div class="g-tip">El "Para ti" premia retención y rewatches → hook fuerte + loop al final.</div>
+        </div>
+        <div class="g-mini">
+          <h4><span class="pf-pill pf-ig">Instagram Reels</span></h4>
+          <ul>
+            <li>Vertical 9:16, 45–60s</li>
+            <li>1ª línea del caption educativa (se trunca pronto)</li>
+            <li>Portada manual que se vea bien en la cuadrícula</li>
+            <li>Cuenta <b>Creator</b> · etiqueta IA</li>
+            <li><b>Perfil:</b> Destacados, link en bio (Linktree), cuadrícula coherente</li>
+          </ul>
+          <div class="g-tip">Aquí mandan <b>guardados y compartidos</b> → cierra con "guárdalo / mándaselo a alguien".</div>
+        </div>
+        <div class="g-mini">
+          <h4><span class="pf-pill pf-fb">Facebook Reels</span></h4>
+          <ul>
+            <li>Mismo máster 9:16, sin marca de agua</li>
+            <li>Descripción puede asumir audiencia algo mayor</li>
+            <li>Publica desde una <b>Página</b> (no perfil personal)</li>
+            <li><b>Página:</b> foto = Ojo, sección de info, enlaza tu IG (Meta los conecta)</li>
+          </ul>
+          <div class="g-tip">Audiencia +35 y alcance orgánico aún sólido en Reels: público que las otras redes no te dan.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">5 · El primer fotograma (lo más subestimado)</div>
+      <p class="g-p">El primer frame es tu miniatura en el feed. Que tenga el <b>logo</b> + 3–4 palabras del gancho. Decide el clic antes de que escuchen una sola palabra.</p>
+      <div class="g-tip">Sube el CTR sin clickbait: promesa de comprensión, no exageración (regla de marca).</div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">6 · Tendencias 2026 — úsalas a tu favor</div>
+      <div class="g-grid">
+        <div class="g-mini"><h4>⚡ Hook en 1–2s</h4><ul><li>Si no enganchas en 2s, te hacen swipe. La frase más fuerte va primero.</li></ul></div>
+        <div class="g-mini"><h4>💬 Subtítulos siempre</h4><ul><li>La mayoría ve sin sonido. Texto quemado = más retención.</li></ul></div>
+        <div class="g-mini"><h4>🔢 Series numeradas</h4><ul><li>"Mito #1, #2…" generan binge y te hacen volver. Ya lo tienes en el plan.</li></ul></div>
+        <div class="g-mini"><h4>🎵 Identidad sonora</h4><ul><li>Tu cortinilla + Ojo en cada video = marca reconocible al instante.</li></ul></div>
+        <div class="g-mini"><h4>🗣️ Responde con video</h4><ul><li>Contesta comentarios con un Short: comunidad + ideas gratis de contenido.</li></ul></div>
+        <div class="g-mini"><h4>📲 Nativo en cada red</h4><ul><li>Sube el archivo limpio en cada app; nunca reposts con marca de agua (penaliza).</li></ul></div>
+      </div>
+      <div class="g-tip">Las plataformas cambian seguido: confirma formatos y políticas en los recursos de creador de cada app cada ~3 meses.</div>
+    </div>
+
+    <div class="g-card">
+      <div class="g-h">7 · "Vincular" tus canales (lo que de verdad se puede)</div>
+      <p class="g-p">No existe unir cuentas entre plataformas (cada red es su mundo). La forma real de conectarlas:</p>
+      <div class="g-mini" style="margin-bottom:0;"><ul>
+        <li>Mismo <b>@handle</b> en las 4 (lo del punto 1)</li>
+        <li>Pon el <b>link de unas en la bio de otras</b> (TikTok e IG permiten enlazar otras redes; YouTube en "enlaces del canal")</li>
+        <li><b>Meta conecta IG ↔ Facebook</b> desde el Business Suite (publicas una vez para las dos)</li>
+        <li>Menciona tus otras redes al final de algunos videos</li>
+      </ul></div>
+      <div class="g-tip">Resultado: tu audiencia rebota entre tus redes y te sigue en todas, no solo en una.</div>
+    </div>
+  </div>
 
 <script>
 const KEY='espectro-uploads-v2';
@@ -232,6 +381,12 @@ function updateStats(){
   renderCal();
 }
 function set(id,txt,bar,frac){document.getElementById(id).textContent=txt;document.getElementById(bar).style.width=Math.round(frac*100)+'%';}
+function showTab(n){
+  document.getElementById('tab-crono').style.display=n===1?'':'none';
+  document.getElementById('tab-guia').style.display=n===2?'':'none';
+  document.getElementById('tb1').classList.toggle('on',n===1);
+  document.getElementById('tb2').classList.toggle('on',n===2);
+}
 
 const SD_KEY='espectro-start';
 const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];

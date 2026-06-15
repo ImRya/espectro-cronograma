@@ -179,7 +179,7 @@ const DATA=[
 const ORDER=['t9s1','t1s1','t5s1','t2s1','t3s1','t4s1','t9s2','t5s2','t6s1','t7s1','t8s1','t9s3','t1s2','t3s2','t4s2','t10s1'];
 let UP=JSON.parse(localStorage.getItem(KEY)||'{}');
 function gu(id){return UP[id]||(UP[id]={});}
-function save(){localStorage.setItem(KEY,JSON.stringify(UP));}
+function save(){localStorage.setItem(KEY,JSON.stringify(UP)); if(window.pushRemote)window.pushRemote();}
 
 function render(){
   const root=document.getElementById('temas'); root.innerHTML='';
@@ -261,8 +261,41 @@ function renderCal(){
     el.appendChild(row);
   });
 }
-document.getElementById('startDate').addEventListener('change',e=>{localStorage.setItem(SD_KEY,e.target.value); renderCal();});
+document.getElementById('startDate').addEventListener('change',e=>{localStorage.setItem(SD_KEY,e.target.value); renderCal(); if(window.pushRemote)window.pushRemote();});
+window.getLocalState=function(){return {uploads:UP, start:(document.getElementById('startDate').value||getStart())};};
+window.applyRemote=function(d){ if(d&&d.uploads){UP=d.uploads; localStorage.setItem(KEY,JSON.stringify(UP));} if(d&&d.start){localStorage.setItem(SD_KEY,d.start); const i=document.getElementById('startDate'); if(i)i.value=d.start;} render(); };
 render();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL='https://ulexosqorgsvrsbkwklh.supabase.co';
+  const SB_KEY='sb_publishable_6qXmOY69AZC9hEAigwe0xQ_HadPxE8u';
+  const ROW='espectro';
+  if(!window.supabase){console.warn('Supabase no cargó (sin internet o CDN bloqueado). El tracker sigue funcionando local.');return;}
+  const sb=window.supabase.createClient(SB_URL,SB_KEY);
+  let applying=false, deb=null;
+  window.pushRemote=function(){
+    if(applying)return;
+    clearTimeout(deb);
+    deb=setTimeout(async()=>{
+      try{ await sb.from('tracker').upsert({id:ROW,data:window.getLocalState(),updated_at:new Date().toISOString()}); }catch(e){console.warn(e);}
+    },600);
+  };
+  async function pull(){
+    try{
+      const {data,error}=await sb.from('tracker').select('data').eq('id',ROW).maybeSingle();
+      if(!error && data && data.data){ applying=true; window.applyRemote(data.data); applying=false; }
+    }catch(e){console.warn(e);}
+  }
+  pull();
+  sb.channel('tracker-rt')
+    .on('postgres_changes',{event:'*',schema:'public',table:'tracker'},p=>{
+      if(p.new && p.new.data){ applying=true; window.applyRemote(p.new.data); applying=false; }
+    })
+    .subscribe();
+})();
 </script>
 </body>
 </html>
